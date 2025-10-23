@@ -41,6 +41,7 @@ document.addEventListener('DOMContentLoaded', function(){
         desc.value = '';
     }
 
+    //funcion para eliminar tarea
     function removeTodo(id){
         console.log(id);
         document.getElementById(id).remove();
