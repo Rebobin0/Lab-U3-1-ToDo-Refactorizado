@@ -22,7 +22,7 @@ export default class Model {
         };
 
         this.todos.push(todo);
-        
+        console.log(this.todos);
 
         //return a clon of the todo to avoid direct manipulation
         return { ...todo };

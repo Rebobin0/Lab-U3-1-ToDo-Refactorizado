@@ -1,13 +1,13 @@
 export default class AddTodo{
-    constructor(addTodoCallback) {
+    constructor() {
         this.addButton = document.getElementById("add");
         this.title = document.getElementById("title");
-        this.desc = document.getElementById("description");
+        this.description = document.getElementById("description");
     }
 
     onClick(callback) {
         this.addButton.onclick = () => {
-            if(title.value === '' || desc.value === '' ){
+            if(title.value === '' || this.description.value === '' ){
                 //alert.classList.remove('d-none');
                 //alert.innerText = 'Título y descripción son obligatorios.';
                 //return;
