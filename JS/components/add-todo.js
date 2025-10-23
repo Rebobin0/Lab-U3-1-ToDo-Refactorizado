@@ -3,17 +3,22 @@ export default class AddTodo{
         this.addButton = document.getElementById("add");
         this.title = document.getElementById("title");
         this.description = document.getElementById("description");
+        this.alert = document.getElementById('alert');
     }
 
     onClick(callback) {
         this.addButton.onclick = () => {
+            // validate inputs
             if(title.value === '' || this.description.value === '' ){
-                //alert.classList.remove('d-none');
-                //alert.innerText = 'Título y descripción son obligatorios.';
-                //return;
-                console.error("Título y descripción son obligatorios.");
+                this.alert.classList.remove('d-none');
+                this.alert.innerText = 'Título y descripción son obligatorios.';
+                return;
             }else{
+                this.alert.classList.add('d-none');
                 callback(this.title.value, this.description.value);
+                // clear input fields
+                this.title.value = '';
+                this.description.value = '';
             }
         }
     }

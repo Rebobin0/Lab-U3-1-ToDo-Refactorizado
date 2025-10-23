@@ -27,4 +27,10 @@ export default class Model {
         //return a clon of the todo to avoid direct manipulation
         return { ...todo };
     }
+    // remove from Array todos
+    removeTodo(id) {
+        const index = this.todos.findIndex((todo) => todo.id === id);
+        this.todos.splice(index, 1);
+        console.log(this.todos);
+    }
 }
