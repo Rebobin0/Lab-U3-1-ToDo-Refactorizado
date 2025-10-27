@@ -14,12 +14,12 @@
         href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/darkly/bootstrap.min.css"
         rel="stylesheet"
     />
-    <title>JS To do List</title>
+    <title>JS Lista de To Do</title>
 </head>
 <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">JS To do List</a>
+        <a class="navbar-brand" href="#">JS Lista de To Do</a>
         <button
         class="navbar-toggler"
         type="button"
@@ -40,14 +40,14 @@
             </a>
             </li>
         </ul>
-        <!-- <form class="form-inline my-2 my-lg-0" id="filters">
-                <label class="font-weight-bold text-info mr-3">Filters</label>
+        <form class="form-inline my-2 my-lg-0" id="filters">
+                <label class="font-weight-bold text-info mr-3">Filtros</label>
                 <input type="radio" name="type" value="all" class="mx-1">
-                <label for="male" class="mb-0">All</label>
+                <label for="male" class="mb-0">Todos</label>
                 <input type="radio" name="type" value="completed" class="mx-1">
-                <label for="female" class="mb-0">Completed</label>
+                <label for="female" class="mb-0">Completados</label>
                 <input type="radio" name="type" value="uncompleted" class="mx-1">
-                <label for="other" class="mr-2 mb-0">Uncompleted</label> 
+                <label for="other" class="mr-2 mb-0">No Completados</label>
 
                 <input
                 class="form-control mr-sm-2"
@@ -57,15 +57,15 @@
                 aria-label="Search"
                 >
                 <button class="btn btn-outline-info my-2 my-sm-0" type="submit" id="search">
-                Search
+                Buscar
                 </button>
-            </form> -->
+            </form> 
         </div>
     </nav>
 
-    <!-- Modal -->
+    <!-- Modal for Edit -->
 
-    <!-- <div
+    <div
         class="modal fade"
         id="modal"
         tabindex="-1"
@@ -77,7 +77,7 @@
         <div class="modal-content">
             <div class="modal-header">
             <h5 class="modal-title">
-                Edit Todo
+                Editar ToDo
             </h5>
             <button
                 type="button"
@@ -90,11 +90,11 @@
             </div>
             <div class="modal-body">
             <div class="alert alert-danger d-none" role="alert" id="modal-alert">
-                A simple danger alert—check it out!
+                Título, descripción y fecha son obligatorios
             </div>
             <form>
                 <div class="form-group">
-                <label>Title</label>
+                <label>Título</label>
                 <input
                     id="modal-title"
                     type="text"
@@ -103,13 +103,21 @@
                 />
                 </div>
                 <div class="form-group">
-                <label>Description</label>
+                <label>Descripción</label>
                 <textarea class="form-control" id="modal-description" rows="3">
 
                 </textarea>
                 </div>
+                <div class="form-group">
+                <label>Fecha límite</label>     
+                    <input
+                        id="modal-date"
+                        type="date"
+                        class="form-control"            
+                    />  
+                </div>
                 <div class="form-group d-inline-flex">
-                <label>Completed</label>
+                <label>Completado</label>
                 <div class="mt-1 ml-2">
                     <input
                     id="modal-completed"
@@ -121,15 +129,15 @@
             </div>
             <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                Close
+                Cerrar
             </button>
             <button type="button" class="btn btn-info" id="modal-btn">
-                Save
+                Guardar
             </button>
             </div>
         </div>
         </div>
-    </div> -->
+    </div>
 
     <main>
         <div class="container pt-3">
@@ -148,16 +156,24 @@
                     type="text"
                     id="title"
                     class="form-control ml-sm-2"
-                    placeholder="Learn JS"
+                    placeholder="Título"
                 >
                 </div>
-                <div class="px-sm-2 col-sm-7 d-sm-flex align-items-center mt-2 mt-sm-0">
+                <div class="px-sm-2 col-sm-4 d-sm-flex align-items-center mt-2 mt-sm-0">
                 <label class="m-sm-0">Descripción</label>
+                    <input
+                        type="text"
+                        id="description"
+                        class="form-control ml-sm-2"
+                        placeholder="Descripción"
+                    >
+                </div>
+                <div class="col-sm-3 d-sm-flex align-items-center">
+                <label class="m-sm-0">Fecha límite</label>
                 <input
-                    type="text"
-                    id="description"
+                    type="date"
+                    id="date"
                     class="form-control ml-sm-2"
-                    placeholder="Watch JS Tutorials"
                 >
                 </div>
                 <div class="col-sm-2 d-sm-flex justify-content-end mt-4 mt-sm-0">
@@ -177,6 +193,10 @@
                     <tr>
                         <th scope="col">To do</th>
                         <th scope="col">Descripción</th>
+                        <th scope="col">
+                            <div class="d-flex justify-content-left">
+                            Fecha para completar
+                            </div>
                         <th scope="col">
                             <div class="d-flex justify-content-center">
                             Completado
@@ -203,6 +223,6 @@
     <!-- Bootstrap -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
     <!-- JS Code -->
-    <script src="./index.js"></script>
+    <script src="./JS/index.js" type="module"></script>
 </body>
 </html>

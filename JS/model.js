@@ -1,0 +1,70 @@
+export default class Model {
+    constructor() {
+        this.view = null;
+        this.todos = JSON.parse(localStorage.getItem('todos'));
+        if(!this.todos || this.todos.length < 1){
+            this.todos = [];
+            this.currentId = 1;
+        } else {
+            this.currentId = this.todos[this.todos.length - 1].id + 1;
+        }
+    }
+
+    setView(view) {
+        this.view = view;
+    }
+
+    save() {
+        localStorage.setItem('todos', JSON.stringify(this.todos));
+    }
+
+    getTodos() {
+        //we have to return a clon to avoid direct manipulation
+        return this.todos.map(todo => ({ ...todo }));
+        
+    }
+
+    findTodo(id) {
+        // find index of todo by id
+        return this.todos.findIndex((todo) => todo.id === id);
+    }
+
+    toggleCompleted(id) {
+        // invert completed status
+        const index = this.findTodo(id);
+        const todo = this.todos[index];
+        todo.completed = !todo.completed;
+        this.save();
+    }
+
+    editTodo(id, values) {
+        const index = this.findTodo(id);
+        Object.assign(this.todos[index], values);
+        this.save();
+    }
+
+    addTodo(title, description,date) {
+        const todo = { 
+            id:this.currentId++,
+            title,
+            description,
+            //set default date to today
+            date: date || new Date().toLocaleDateString(),  
+            completed: false 
+        };
+
+        this.todos.push(todo);
+        console.log(this.todos);
+        this.save();
+
+        //return a clon of the todo to avoid direct manipulation
+        return { ...todo };
+    }
+    // remove from Array todos
+    removeTodo(id) {
+        const index = this.findTodo(id);
+        this.todos.splice(index, 1);
+        console.log(this.todos);
+        this.save();
+    }
+}
