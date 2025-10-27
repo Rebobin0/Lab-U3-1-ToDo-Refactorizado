@@ -7,7 +7,7 @@ app.use(express.json());
 app.use(cors());
 
 // Replace with your MongoDB Atlas connection string
-mongoose.connect('mongodb+srv://U3-1-UsuarioA:ouxWM63D4EHdMiYp@cluster0.31a2h7a.mongodb.net/?appName=Cluster0', {
+mongoose.connect('mongodb+srv://U3-1-UsuarioA:ouxWM63D4EHdMiYp@cluster0.31a2h7a.mongodb.net/todosdb?retryWrites=true&w=majority', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
@@ -37,8 +37,8 @@ app.post('/api/todos', async (req, res) => {
 // Edit a todo
 app.put('/api/todos/:id', async (req, res) => {
   const { id } = req.params;
-  const { title, description, completed } = req.body;
-  const todo = await Todo.findByIdAndUpdate(id, { title, description, completed }, { new: true });
+  const { title, description, date, completed } = req.body;
+  const todo = await Todo.findByIdAndUpdate(id, { title, description, date, completed }, { new: true });
   res.json(todo);
 });
 

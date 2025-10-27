@@ -20,6 +20,10 @@ export default class View{
     }
 
     async render(){
+        // Limpia las filas existentes
+        while (this.table.rows.length > 1) {
+            this.table.deleteRow(1);
+        }
         const todos = await this.model.getTodos();
         todos.forEach((todo) => this.createRow(todo));
     }
