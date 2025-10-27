@@ -1,70 +1,61 @@
 export default class Model {
     constructor() {
         this.view = null;
-        this.todos = JSON.parse(localStorage.getItem('todos'));
-        if(!this.todos || this.todos.length < 1){
-            this.todos = [];
-            this.currentId = 1;
-        } else {
-            this.currentId = this.todos[this.todos.length - 1].id + 1;
-        }
+        this.todos = [];
+        this.apiUrl = 'http://localhost:3001/api/todos';
     }
 
     setView(view) {
         this.view = view;
     }
 
-    save() {
-        localStorage.setItem('todos', JSON.stringify(this.todos));
+    async getTodos() {
+        const res = await fetch(this.apiUrl);
+        this.todos = await res.json();
+        return this.todos.map(todo => ({ ...todo }));
     }
 
-    getTodos() {
-        //we have to return a clon to avoid direct manipulation
-        return this.todos.map(todo => ({ ...todo }));
-        
+    async addTodo(title, description) {
+        const res = await fetch(this.apiUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ title, description })
+        });
+        const todo = await res.json();
+        this.todos.push(todo);
+        return { ...todo };
     }
 
     findTodo(id) {
-        // find index of todo by id
-        return this.todos.findIndex((todo) => todo.id === id);
+        return this.todos.findIndex((todo) => todo._id === id);
     }
 
-    toggleCompleted(id) {
-        // invert completed status
+    async toggleCompleted(id) {
         const index = this.findTodo(id);
         const todo = this.todos[index];
-        todo.completed = !todo.completed;
-        this.save();
+        const updated = { ...todo, completed: !todo.completed };
+        const res = await fetch(`${this.apiUrl}/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(updated)
+        });
+        this.todos[index] = await res.json();
     }
 
-    editTodo(id, values) {
+    async editTodo(id, values) {
         const index = this.findTodo(id);
-        Object.assign(this.todos[index], values);
-        this.save();
+        const updated = { ...this.todos[index], ...values };
+        const res = await fetch(`${this.apiUrl}/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(updated)
+        });
+        this.todos[index] = await res.json();
     }
 
-    addTodo(title, description,date) {
-        const todo = { 
-            id:this.currentId++,
-            title,
-            description,
-            //set default date to today
-            date: date || new Date().toLocaleDateString(),  
-            completed: false 
-        };
-
-        this.todos.push(todo);
-        console.log(this.todos);
-        this.save();
-
-        //return a clon of the todo to avoid direct manipulation
-        return { ...todo };
-    }
-    // remove from Array todos
-    removeTodo(id) {
+    async removeTodo(id) {
+        await fetch(`${this.apiUrl}/${id}`, { method: 'DELETE' });
         const index = this.findTodo(id);
         this.todos.splice(index, 1);
-        console.log(this.todos);
-        this.save();
     }
 }
