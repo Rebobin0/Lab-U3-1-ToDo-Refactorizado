@@ -9,19 +9,20 @@ export default class AddTodo{
 
         this.alert = new Alert('alert');
     }
-  
+
     onClick(callback) {
         this.addButton.onclick = () => {
             // validate inputs
-            if(title.value === '' || this.description.value === '' ){
-                this.alert.show('Título y descripción son obligatorios');
+            if(title.value === '' || this.description.value === '' || this.date.value === ''){
+                this.alert.show('Título, descripción y fecha son obligatorios');
                 return;
             }else{
                 this.alert.hide();
-                callback(this.title.value, this.description.value);
+                callback(this.title.value, this.description.value, this.date.value);
                 // clear input fields
                 this.title.value = '';
                 this.description.value = '';
+                this.date.value = '';
             }
         }
     }

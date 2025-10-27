@@ -3,15 +3,7 @@ export default class Model {
         this.view = null;
         this.todos = JSON.parse(localStorage.getItem('todos'));
         if(!this.todos || this.todos.length < 1){
-            this.todos = [
-                { 
-                  id: 0, 
-                  title: 'Learn JS', 
-                  description: 'Watch JS Tutorials',
-                  date: new Date().toLocaleDateString(),
-                  completed: false,
-                }
-            ];
+            this.todos = [];
             this.currentId = 1;
         } else {
             this.currentId = this.todos[this.todos.length - 1].id + 1;
@@ -22,7 +14,7 @@ export default class Model {
         this.view = view;
     }
 
-    save(){
+    save() {
         localStorage.setItem('todos', JSON.stringify(this.todos));
     }
 
@@ -45,7 +37,7 @@ export default class Model {
         this.save();
     }
 
-    editTodo(id, values){
+    editTodo(id, values) {
         const index = this.findTodo(id);
         Object.assign(this.todos[index], values);
         this.save();

@@ -37,7 +37,7 @@ export default class View{
         const rows = this.table.querySelectorAll('tr:not(:first-child)');
         
         for(const row of rows){
-            const [title, description, completed] = row.children;
+            const [title, description, date, completed] = row.children;
             let shouldHide = false;
 
             //filter by words
@@ -59,12 +59,11 @@ export default class View{
                 row.classList.remove('d-none');
             }
         }
-
     }
 
-    addTodo(title,description,date){
+    addTodo(title, description, date){
         // call model to add todo and create row in view
-        const todo=this.model.addTodo(title,description,date);
+        const todo = this.model.addTodo(title, description, date);
         this.createRow(todo);
     }
 
@@ -78,7 +77,7 @@ export default class View{
         const row = document.getElementById(id);
         row.children[0].innerText = values.title;
         row.children[1].innerText = values.description;
-        row.children[2].innerText = ''; //clear date cell
+        row.children[2].innerText = values.date;
         row.children[3].children[0].checked = values.completed;     
     }
 
@@ -94,19 +93,10 @@ export default class View{
         row.innerHTML = `
             <td>${todo.title}</td>
             <td>${todo.description}</td>
+            <td>${todo.date}</td>
             <td class="text-center"></td>
-            <td class="text-center">
-            </td>
-            <td class="text-right">
-            </td>
+            <td class="text-right"></td>
         `;
-
-        //add date cell for completing the task
-        const dateCell = row.insertCell(2);
-        dateCell.classList.add('text-left');
-        dateCell.value = todo.date;
-
-
 
         // add checkbox
         const checkbox = document.createElement('input');
@@ -126,7 +116,7 @@ export default class View{
             id: todo.id,
             title: row.children[0].innerText,
             description: row.children[1].innerText,
-            date: row.children[2].children[0].value,
+            date: row.children[2].innerText,
             completed: row.children[3].children[0].checked
         });
         row.children[4].appendChild(editBtn);
@@ -139,4 +129,3 @@ export default class View{
         row.children[4].appendChild(removeBtn);
     }
 }
-//
