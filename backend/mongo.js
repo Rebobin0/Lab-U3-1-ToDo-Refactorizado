@@ -6,7 +6,6 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-// Replace with your MongoDB Atlas connection string
 mongoose.connect('mongodb+srv://U3-1-UsuarioA:ouxWM63D4EHdMiYp@cluster0.31a2h7a.mongodb.net/todosdb?retryWrites=true&w=majority', {
   useNewUrlParser: true,
   useUnifiedTopology: true
