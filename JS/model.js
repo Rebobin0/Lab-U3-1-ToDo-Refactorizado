@@ -8,6 +8,7 @@ export default class Model {
                   id: 0, 
                   title: 'Learn JS', 
                   description: 'Watch JS Tutorials',
+                  date: new Date().toLocaleDateString(),
                   completed: false,
                 }
             ];
@@ -26,7 +27,9 @@ export default class Model {
     }
 
     getTodos() {
-        return this.todos;
+        //we have to return a clon to avoid direct manipulation
+        return this.todos.map(todo => ({ ...todo }));
+        
     }
 
     findTodo(id) {
@@ -48,11 +51,13 @@ export default class Model {
         this.save();
     }
 
-    addTodo(title, description) {
+    addTodo(title, description,date) {
         const todo = { 
             id:this.currentId++,
             title,
             description,
+            //set default date to today
+            date: date || new Date().toLocaleDateString(),  
             completed: false 
         };
 

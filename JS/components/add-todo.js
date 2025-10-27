@@ -5,10 +5,11 @@ export default class AddTodo{
         this.addButton = document.getElementById("add");
         this.title = document.getElementById("title");
         this.description = document.getElementById("description");
+        this.date = document.getElementById("date");
 
         this.alert = new Alert('alert');
     }
-
+  
     onClick(callback) {
         this.addButton.onclick = () => {
             // validate inputs

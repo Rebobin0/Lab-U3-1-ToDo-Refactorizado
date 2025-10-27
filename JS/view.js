@@ -1,5 +1,6 @@
 import AddTodo from "./components/add-todo.js";
 import Modal from "./components/modal.js";
+import Filter from "./components/filters.js";
 
 export default class View{
     constructor() { 
@@ -7,10 +8,12 @@ export default class View{
         this.table = document.getElementById("table");
         this.addTodoComponent = new AddTodo();
         this.modal = new Modal();
+        this.filters = new Filter();
         
         //set arrow function so that 'this' refers to the View instance
-        this.addTodoComponent.onClick((title, description) => this.addTodo(title, description));
+        this.addTodoComponent.onClick((title, description,date) => this.addTodo(title, description,date));
         this.modal.onClick((id, values) => this.editTodo(id, values));
+        this.filters.onClick((filters) => this.filter(filters));
     }
 
     setModel(model) {
@@ -23,9 +26,45 @@ export default class View{
         todos.forEach((todo) => this.createRow(todo));
     }
 
-    addTodo(title,description){
+    filter(filters){
+        const {type, words} = filters;
+        //destructure filters object, get type and words
+
+        //get all rows except header row
+        //[,...rows] keeps returning the header row for some reason
+        //const [,...rows] = this.table.getElementsByTagName('tr');
+        //querySelectorAll returns a static NodeList, getElementsByTagName a live HTMLCollection
+        const rows = this.table.querySelectorAll('tr:not(:first-child)');
+        
+        for(const row of rows){
+            const [title, description, completed] = row.children;
+            let shouldHide = false;
+
+            //filter by words
+            if(words){
+                shouldHide = !title.innerText.includes(words) && !description.innerText.includes(words);
+            }
+
+            const shouldBeCompleted = type === 'completed';
+            const isCompleted = completed.children[0].checked;
+
+            //filter by type
+            if(type !== 'all' && shouldBeCompleted !== isCompleted){
+                shouldHide = true;
+            }
+
+            if(shouldHide){
+                row.classList.add('d-none');
+            }else{
+                row.classList.remove('d-none');
+            }
+        }
+
+    }
+
+    addTodo(title,description,date){
         // call model to add todo and create row in view
-        const todo=this.model.addTodo(title,description);
+        const todo=this.model.addTodo(title,description,date);
         this.createRow(todo);
     }
 
@@ -39,7 +78,8 @@ export default class View{
         const row = document.getElementById(id);
         row.children[0].innerText = values.title;
         row.children[1].innerText = values.description;
-        row.children[2].children[0].checked = values.completed;     
+        row.children[2].innerText = ''; //clear date cell
+        row.children[3].children[0].checked = values.completed;     
     }
 
     removeTodo(id) {
@@ -54,18 +94,26 @@ export default class View{
         row.innerHTML = `
             <td>${todo.title}</td>
             <td>${todo.description}</td>
+            <td class="text-center"></td>
             <td class="text-center">
             </td>
             <td class="text-right">
             </td>
         `;
 
+        //add date cell for completing the task
+        const dateCell = row.insertCell(2);
+        dateCell.classList.add('text-left');
+        dateCell.value = todo.date;
+
+
+
         // add checkbox
         const checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
         checkbox.checked = todo.completed;
         checkbox.onclick = () => this.toggleCompleted(todo.id);
-        row.children[2].appendChild(checkbox);
+        row.children[3].appendChild(checkbox);
         
         // add edit button
         const editBtn = document.createElement('button');
@@ -73,15 +121,22 @@ export default class View{
         editBtn.innerHTML='<i class="fa fa-pencil"></i>';
         editBtn.setAttribute('data-toggle','modal');
         editBtn.setAttribute('data-target','#modal');
-        editBtn.onclick = () => this.modal.setValues(todo);
-        row.children[3].appendChild(editBtn);
+        //we cant just pass todo bc its values can change, so we get them from the row
+        editBtn.onclick = () => this.modal.setValues({
+            id: todo.id,
+            title: row.children[0].innerText,
+            description: row.children[1].innerText,
+            date: row.children[2].children[0].value,
+            completed: row.children[3].children[0].checked
+        });
+        row.children[4].appendChild(editBtn);
         
         // add remove button
         const removeBtn = document.createElement('button');
         removeBtn.classList.add('btn','btn-danger','mb-1','ml-1');
         removeBtn.innerHTML='<i class="fa fa-trash"></i>';
         removeBtn.onclick = () => this.removeTodo(todo.id);
-        row.children[3].appendChild(removeBtn);
+        row.children[4].appendChild(removeBtn);
     }
 }
 //

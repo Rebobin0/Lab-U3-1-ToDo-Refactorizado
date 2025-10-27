@@ -40,7 +40,7 @@
             </a>
             </li>
         </ul>
-        <!-- <form class="form-inline my-2 my-lg-0" id="filters">
+        <form class="form-inline my-2 my-lg-0" id="filters">
                 <label class="font-weight-bold text-info mr-3">Filters</label>
                 <input type="radio" name="type" value="all" class="mx-1">
                 <label for="male" class="mb-0">All</label>
@@ -59,7 +59,7 @@
                 <button class="btn btn-outline-info my-2 my-sm-0" type="submit" id="search">
                 Search
                 </button>
-            </form> -->
+            </form> 
         </div>
     </nav>
 
@@ -108,6 +108,14 @@
 
                 </textarea>
                 </div>
+                <div class="form-group">
+                <label>Date to complete</label>     
+                    <input
+                        id="modal-date"
+                        type="date"
+                        class="form-control"            
+                    />  
+                </div>
                 <div class="form-group d-inline-flex">
                 <label>Completed</label>
                 <div class="mt-1 ml-2">
@@ -153,12 +161,21 @@
                 </div>
                 <div class="px-sm-2 col-sm-7 d-sm-flex align-items-center mt-2 mt-sm-0">
                 <label class="m-sm-0">Descripción</label>
-                <input
-                    type="text"
-                    id="description"
-                    class="form-control ml-sm-2"
-                    placeholder="Watch JS Tutorials"
-                >
+                    <input
+                        type="text"
+                        id="description"
+                        class="form-control ml-sm-2"
+                        placeholder="Watch JS Tutorials"
+                    >
+                </div>
+                <label class="px-sm-2 col-sm-3 d-sm-flex align-items-center mt-2 mt-sm-0">Fecha para completar</label>  
+                <div class="col-sm-7 d-sm-flex align-items-center mt-2 mt-sm-0">
+                    
+                    <input
+                        type="date"
+                        id="date"
+                        class="form-control ml-sm-2"
+                    >
                 </div>
                 <div class="col-sm-2 d-sm-flex justify-content-end mt-4 mt-sm-0">
                 <button type="button" class="btn btn-info btn-block" id="add">
@@ -177,6 +194,10 @@
                     <tr>
                         <th scope="col">To do</th>
                         <th scope="col">Descripción</th>
+                        <th scope="col">
+                            <div class="d-flex justify-content-left">
+                            Fecha para completar
+                            </div>
                         <th scope="col">
                             <div class="d-flex justify-content-center">
                             Completado
