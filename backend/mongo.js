@@ -29,9 +29,13 @@ app.get('/api/todos', async (req, res) => {
 // Add a todo
 app.post('/api/todos', async (req, res) => {
   const { title, description, date } = req.body;
+  if (!title || !description || !date) {
+    return res.status(400).json({ error: 'Faltan campos obligatorios' });
+  }
   const todo = new Todo({ title, description, date, completed: false });
   await todo.save();
   res.json(todo);
+  console.log('Datos recibidos:', req.body);
 });
 
 // Edit a todo
