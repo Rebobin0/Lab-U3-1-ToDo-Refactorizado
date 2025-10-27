@@ -15,6 +15,7 @@ mongoose.connect('mongodb+srv://U3-1-UsuarioA:ouxWM63D4EHdMiYp@cluster0.31a2h7a.
 const todoSchema = new mongoose.Schema({
   title: String,
   description: String,
+  date: String,
   completed: Boolean
 });
 const Todo = mongoose.model('Todo', todoSchema);
@@ -27,8 +28,8 @@ app.get('/api/todos', async (req, res) => {
 
 // Add a todo
 app.post('/api/todos', async (req, res) => {
-  const { title, description } = req.body;
-  const todo = new Todo({ title, description, completed: false });
+  const { title, description, date } = req.body;
+  const todo = new Todo({ title, description, date, completed: false });
   await todo.save();
   res.json(todo);
 });

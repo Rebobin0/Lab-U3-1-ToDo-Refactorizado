@@ -15,11 +15,11 @@ export default class Model {
         return this.todos.map(todo => ({ ...todo }));
     }
 
-    async addTodo(title, description) {
+    async addTodo(title, description, date) {
         const res = await fetch(this.apiUrl, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ title, description })
+            body: JSON.stringify({ title, description, date })
         });
         const todo = await res.json();
         this.todos.push(todo);
